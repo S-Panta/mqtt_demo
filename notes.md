@@ -6,3 +6,4 @@
 Topic based filtering
 MQTT is lighter than the HTTP 1.1 protocol. Seriously what does it even mean?
 
+One can either open socket port and then get request for health checking. But mosquitto already have their internalized health checking. `$SYS` reveals the internal information of broker
