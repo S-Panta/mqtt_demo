@@ -41,22 +41,29 @@ def publish_river_guage_data(client):
             "rainfall": rainfall,
             "rainfall_timestamp": rainfall_timestamp
         })
-        print(f"Measured river level: {river_level} m in interval of {sampling_time}, rainfall data is {rainfall} mm ")
-        client.publish(publish_topic,river_message)
+        result = client.publish(publish_topic,river_message)
+        status = result[0]
 
-        if river_level > 2.5:
-            alert_msg = json.dumps({
-                "alert": "FLOOD WARNING",
-                "river_level": river_level,
-                "timestamp": timestamp
-            })
-            client.publish(alert_topic, alert_msg)
+        if status == 0:
+            print(f"Measured river level: {river_level} m in interval of {sampling_time}, rainfall data is {rainfall} mm ")
+        else :
+            print("failed to send message:")
+        
+        # if river_level > 2.5:
+        #     alert_msg = json.dumps({
+        #         "alert": "FLOOD WARNING",
+        #         "river_level": river_level,
+        #         "timestamp": timestamp
+        #     })
+        #     client.publish(alert_topic, alert_msg)
         time.sleep(sampling_time)
 
 client = mqtt_client.Client(mqtt_client.CallbackAPIVersion.VERSION2)
 client.on_connect = on_connect
 client.on_message = on_message
-client.connect('localhost',1883,60)
+client.connect("raspberrypi.mypc.usu.edu", 1883, 60)
+# loop_start creates a new thread
 client.loop_start()
+# each function seems to have it's own threads
 publish_river_guage_data(client)
 

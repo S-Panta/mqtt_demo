@@ -9,4 +9,3 @@ services:
       - ./mosquitto/log:/mosquitto/log
     ports:
       - 1883:1883
-      - 9081:9081
