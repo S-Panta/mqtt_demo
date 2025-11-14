@@ -22,11 +22,11 @@ def publish_rainfall(client):
             print(f"Rainfall Value {message} mm send to topic `{subscription_topic}`")
         else:
             print("Failed to send message")
-        time.sleep(20)
+        time.sleep(5)
 
 client = mqtt_client.Client(mqtt_client.CallbackAPIVersion.VERSION2)
 client.on_connect = on_connect
-client.connect('localhost',1883,60)
+client.connect("raspberrypi.mypc.usu.edu", 1883, 60)
 client.loop_start()
 publish_rainfall(client)
 
